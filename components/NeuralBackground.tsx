@@ -125,8 +125,8 @@ export const NeuralBackground: React.FC = () => {
                     depth: false
                 }}
                 dpr={dpr} // Dynamic pixel ratio based on device
-                frameloop={isMobile ? "demand" : "always"} // Only render on demand for mobile
-                performance={{ min: 0.5 }} // Allow frame drops
+                frameloop="always" // Keep animation running (particles need continuous updates)
+                performance={{ min: isMobile ? 0.3 : 0.5 }} // Allow more frame drops on mobile
             >
                 <Suspense fallback={null}>
                     <NeuralNetwork particleCount={particleCount} />

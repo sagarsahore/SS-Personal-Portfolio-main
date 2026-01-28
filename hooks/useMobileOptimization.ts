@@ -27,7 +27,7 @@ export const isLowPowerDevice = (): boolean => {
   
   // Check device memory if available (Chrome only)
   const hasLimitedMemory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory !== undefined 
-    && (navigator as Navigator & { deviceMemory?: number }).deviceMemory! < 4;
+    && (navigator as Navigator & { deviceMemory?: number }).deviceMemory < 4;
   
   return isMobile || (isTouchDevice && hasLimitedCPU) || hasLimitedMemory;
 };
@@ -48,28 +48,26 @@ export const useMobileOptimization = () => {
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    // Initial detection
-    setIsMobile(isMobileDevice());
-    setIsLowPower(isLowPowerDevice());
-    setReducedMotion(prefersReducedMotion());
+    // Initial detection - only runs once on mount
+    const mobile = isMobileDevice();
+    const lowPower = isLowPowerDevice();
+    const reducedMotionPref = prefersReducedMotion();
     
-    // Listen for resize events
-    const handleResize = () => {
-      setIsMobile(isMobileDevice());
-      setIsLowPower(isLowPowerDevice());
-    };
+    setIsMobile(mobile);
+    setIsLowPower(lowPower);
+    setReducedMotion(reducedMotionPref);
     
-    // Listen for reduced motion preference changes
+    // Only listen for reduced motion preference changes (not resize)
+    // Device capabilities don't change during session, only window width does
+    // but we use the initial mobile detection to avoid layout shifts
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const handleMotionChange = (e: MediaQueryListEvent) => {
       setReducedMotion(e.matches);
     };
     
-    window.addEventListener('resize', handleResize);
     mediaQuery.addEventListener('change', handleMotionChange);
     
     return () => {
-      window.removeEventListener('resize', handleResize);
       mediaQuery.removeEventListener('change', handleMotionChange);
     };
   }, []);

@@ -111,7 +111,8 @@ export const Vision3D: React.FC = () => {
           powerPreference: "high-performance"
         }} 
         dpr={[1, 1.5]}
-        frameloop="demand"
+        frameloop="always" // Keep animation running for particle wave
+        performance={{ min: 0.3 }} // Allow frame drops for performance
       >
         <ParticleWave particleCount={particleCount} />
       </Canvas>

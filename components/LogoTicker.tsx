@@ -47,7 +47,7 @@ export const LogoTicker: React.FC = () => {
 
   // Animation settings based on device
   const animationConfig = reducedMotion
-    ? {} // No animation for reduced motion
+    ? { animate: { x: 0 } } // Static position for reduced motion
     : {
         animate: { x: [0, isMobile ? -1000 : -2000] },
         transition: { 

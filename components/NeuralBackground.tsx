@@ -2,19 +2,7 @@ import React, { useRef, useMemo, Suspense, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
-
-// Detect if device is mobile/low-power
-const isMobile = () => {
-    if (typeof window === 'undefined') return false;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
-           || window.innerWidth < 768;
-};
-
-// Detect if user prefers reduced motion
-const prefersReducedMotion = () => {
-    if (typeof window === 'undefined') return false;
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-};
+import { useMobileOptimization } from '../hooks/useMobileOptimization';
 
 const NeuralNetwork = ({ particleCount = 250 }: { particleCount?: number }) => {
     const pointsRef = useRef<THREE.Points>(null);
@@ -118,20 +106,7 @@ const StaticBackground: React.FC = () => (
 );
 
 export const NeuralBackground: React.FC = () => {
-    const [shouldRender3D, setShouldRender3D] = useState(true);
-    const [particleCount, setParticleCount] = useState(250);
-
-    useEffect(() => {
-        // Check device capabilities
-        const mobile = isMobile();
-        const reducedMotion = prefersReducedMotion();
-        
-        if (reducedMotion) {
-            setShouldRender3D(false);
-        } else if (mobile) {
-            setParticleCount(100); // Fewer particles on mobile
-        }
-    }, []);
+    const { shouldRender3D, particleCount, isLowPower, isMobile, dpr } = useMobileOptimization();
 
     // Use static background if 3D is disabled
     if (!shouldRender3D) {
@@ -149,13 +124,13 @@ export const NeuralBackground: React.FC = () => {
                     stencil: false,
                     depth: false
                 }}
-                dpr={[1, 1.5]} // Cap pixel ratio
-                frameloop="demand" // Only render when needed - changed from always
+                dpr={dpr} // Dynamic pixel ratio based on device
+                frameloop={isMobile ? "demand" : "always"} // Only render on demand for mobile
                 performance={{ min: 0.5 }} // Allow frame drops
             >
                 <Suspense fallback={null}>
                     <NeuralNetwork particleCount={particleCount} />
-                    <BackgroundEnvironment />
+                    {!isMobile && <BackgroundEnvironment />}
                     <fog attach="fog" args={['#030303', 10, 60]} />
                     <ambientLight intensity={0.4} />
                 </Suspense>

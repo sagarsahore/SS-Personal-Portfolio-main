@@ -1,5 +1,6 @@
 import React, { useEffect, useState, memo } from 'react';
 import { GlassCard } from './GlassCard';
+import { Hero3D } from './Hero3D';
 import { 
   Brain, Eye, Layers, Copy, ExternalLink, Check, ArrowUpRight, Cpu, BookOpen, 
   Microscope, Target, Sparkles, Activity, BarChart3, FileText, Github,
@@ -330,6 +331,24 @@ export const BentoGrid: React.FC = () => {
               </div>
             </GlassCard>
           ))}
+        </div>
+
+        {/* HERO 3D SHOWCASE - Full Width Interactive Visualization */}
+        <div className="md:col-span-12">
+          <GlassCard className="!p-0 overflow-hidden">
+            <div className="p-6 pb-4">
+              <div className="flex items-center gap-2 mb-4">
+                <Brain size={18} className="text-[#A855F7]" />
+                <h3 className="text-sm font-bold text-white">Neural Vision System</h3>
+                <span className="ml-auto text-[9px] font-mono text-[#10B981] bg-[#10B981]/10 px-2 py-0.5 rounded-full">Interactive</span>
+              </div>
+              <p className="text-xs text-white/50 leading-relaxed mb-4">
+                Interactive 3D visualization of the computational vision system architecture. 
+                Drag to explore the neural processing pipeline.
+              </p>
+            </div>
+            <Hero3D />
+          </GlassCard>
         </div>
 
         {/* PHD PROGRESS */}

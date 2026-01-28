@@ -4,6 +4,7 @@ import {
   ArrowRight, FileText, Github, Linkedin, Mail, 
   Cloud, Cpu, BarChart3, Eye, Sparkles, GraduationCap
 } from 'lucide-react';
+import { useMobileOptimization } from '../hooks/useMobileOptimization';
 
 // --- ROLE SPECTRUM DATA ---
 const roleGroups = [
@@ -82,13 +83,15 @@ export const Hero: React.FC = () => {
   const [activeGroup, setActiveGroup] = useState(0);
   const [activeRoleIndex, setActiveRoleIndex] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const { isMobile, reducedMotion, animationDuration, enableComplexAnimations } = useMobileOptimization();
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
-  // Role loop effect
+  // Role loop effect - slower interval on mobile for better performance
   useEffect(() => {
+    const intervalDuration = isMobile ? 3500 : 2500;
     const interval = setInterval(() => {
       setActiveRoleIndex(prev => {
         const currentGroup = roleGroups[activeGroup];
@@ -98,10 +101,17 @@ export const Hero: React.FC = () => {
         }
         return prev + 1;
       });
-    }, 2500);
+    }, intervalDuration);
 
     return () => clearInterval(interval);
-  }, [activeGroup]);
+  }, [activeGroup, isMobile]);
+
+  // Optimized animation config for mobile
+  const getAnimationProps = (delay: number = 0) => ({
+    initial: reducedMotion ? { opacity: 1 } : { opacity: 0, y: isMobile ? 10 : 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: reducedMotion ? 0.01 : animationDuration, delay: reducedMotion ? 0 : delay }
+  });
 
   const currentGroup = roleGroups[activeGroup];
 
@@ -360,40 +370,50 @@ export const Hero: React.FC = () => {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: isLoaded ? 1 : 0, scale: isLoaded ? 1 : 0.9 }}
-                transition={{ duration: 1.2, delay: 0.2, ease: [0.25, 1, 0.5, 1] }}
+                transition={{ duration: reducedMotion ? 0.01 : (isMobile ? 0.6 : 1.2), delay: reducedMotion ? 0 : 0.2, ease: [0.25, 1, 0.5, 1] }}
                 className="relative"
               >
                 {/* Main Image Container - Large and Prominent */}
                 <div className="relative w-72 h-[380px] md:w-[380px] md:h-[480px] lg:w-[440px] lg:h-[540px]">
                   
-                  {/* Animated glow ring */}
-                  <motion.div
-                    className="absolute -inset-4 rounded-[50px]"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(0,102,255,0.15), transparent, rgba(20,184,166,0.15))',
-                    }}
-                    animate={{
-                      rotate: [0, 360],
-                    }}
-                    transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                  />
+                  {/* Animated glow ring - disabled on mobile for performance */}
+                  {enableComplexAnimations ? (
+                    <motion.div
+                      className="absolute -inset-4 rounded-[50px]"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(0,102,255,0.15), transparent, rgba(20,184,166,0.15))',
+                      }}
+                      animate={{
+                        rotate: [0, 360],
+                      }}
+                      transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                    />
+                  ) : (
+                    <div
+                      className="absolute -inset-4 rounded-[50px]"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(0,102,255,0.15), transparent, rgba(20,184,166,0.15))',
+                      }}
+                    />
+                  )}
                   
                   {/* Outer frame */}
                   <div className="absolute inset-0 rounded-[44px] p-[1px] bg-gradient-to-br from-white/10 via-transparent to-white/5">
-                    <div className="w-full h-full rounded-[43px] bg-[#0A0A0A]/50 backdrop-blur-sm" />
+                    <div className={`w-full h-full rounded-[43px] bg-[#0A0A0A]/50 ${!isMobile ? 'backdrop-blur-sm' : ''}`} />
                   </div>
 
                   {/* The Image */}
                   <motion.div 
                     className="absolute inset-2 rounded-[40px] overflow-hidden"
-                    initial={{ opacity: 0 }}
+                    initial={{ opacity: reducedMotion ? 1 : 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.5 }}
+                    transition={{ duration: reducedMotion ? 0.01 : (isMobile ? 0.5 : 1), delay: reducedMotion ? 0 : 0.5 }}
                   >
                     <img 
                       src="/images/erasebg-transformed.webp" 
                       alt="Sagar Sahore"
                       className="w-full h-full object-cover object-top"
+                      loading="eager"
                       onLoad={() => setImageLoaded(true)}
                     />
                     {/* Gradient overlay */}
@@ -422,46 +442,50 @@ export const Hero: React.FC = () => {
                     </motion.div>
                   </motion.div>
 
-                  {/* Floating badges around avatar */}
-                  <motion.div
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -top-3 right-8 p-3 rounded-2xl bg-[#0A0A0A]/90 backdrop-blur-xl border border-[#0066FF]/30 shadow-lg shadow-[#0066FF]/10"
-                  >
-                    <Eye size={20} className="text-[#0066FF]" />
-                  </motion.div>
+                  {/* Floating badges around avatar - hidden on mobile for performance */}
+                  {enableComplexAnimations && (
+                    <>
+                      <motion.div
+                        animate={{ y: [0, -10, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute -top-3 right-8 p-3 rounded-2xl bg-[#0A0A0A]/90 backdrop-blur-xl border border-[#0066FF]/30 shadow-lg shadow-[#0066FF]/10 hidden md:block"
+                      >
+                        <Eye size={20} className="text-[#0066FF]" />
+                      </motion.div>
 
-                  <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    className="absolute top-1/4 -left-4 p-3 rounded-2xl bg-[#0A0A0A]/90 backdrop-blur-xl border border-[#14B8A6]/30 shadow-lg shadow-[#14B8A6]/10"
-                  >
-                    <Cloud size={18} className="text-[#14B8A6]" />
-                  </motion.div>
+                      <motion.div
+                        animate={{ y: [0, 10, 0] }}
+                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        className="absolute top-1/4 -left-4 p-3 rounded-2xl bg-[#0A0A0A]/90 backdrop-blur-xl border border-[#14B8A6]/30 shadow-lg shadow-[#14B8A6]/10 hidden md:block"
+                      >
+                        <Cloud size={18} className="text-[#14B8A6]" />
+                      </motion.div>
 
-                  <motion.div
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                    className="absolute bottom-1/3 -right-4 p-3 rounded-2xl bg-[#0A0A0A]/90 backdrop-blur-xl border border-[#F59E0B]/30 shadow-lg shadow-[#F59E0B]/10"
-                  >
-                    <BarChart3 size={18} className="text-[#F59E0B]" />
-                  </motion.div>
+                      <motion.div
+                        animate={{ y: [0, -8, 0] }}
+                        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                        className="absolute bottom-1/3 -right-4 p-3 rounded-2xl bg-[#0A0A0A]/90 backdrop-blur-xl border border-[#F59E0B]/30 shadow-lg shadow-[#F59E0B]/10 hidden md:block"
+                      >
+                        <BarChart3 size={18} className="text-[#F59E0B]" />
+                      </motion.div>
 
-                  <motion.div
-                    animate={{ y: [0, 6, 0] }}
-                    transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                    className="absolute top-1/2 -left-6 p-2.5 rounded-xl bg-[#0A0A0A]/90 backdrop-blur-xl border border-[#A855F7]/30 shadow-lg shadow-[#A855F7]/10"
-                  >
-                    <Sparkles size={14} className="text-[#A855F7]" />
-                  </motion.div>
-                  
-                  <motion.div
-                    animate={{ y: [0, -6, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                    className="absolute -bottom-2 left-1/4 p-2.5 rounded-xl bg-[#0A0A0A]/90 backdrop-blur-xl border border-white/10"
-                  >
-                    <Cpu size={14} className="text-white/60" />
-                  </motion.div>
+                      <motion.div
+                        animate={{ y: [0, 6, 0] }}
+                        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                        className="absolute top-1/2 -left-6 p-2.5 rounded-xl bg-[#0A0A0A]/90 backdrop-blur-xl border border-[#A855F7]/30 shadow-lg shadow-[#A855F7]/10 hidden lg:block"
+                      >
+                        <Sparkles size={14} className="text-[#A855F7]" />
+                      </motion.div>
+                      
+                      <motion.div
+                        animate={{ y: [0, -6, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                        className="absolute -bottom-2 left-1/4 p-2.5 rounded-xl bg-[#0A0A0A]/90 backdrop-blur-xl border border-white/10 hidden lg:block"
+                      >
+                        <Cpu size={14} className="text-white/60" />
+                      </motion.div>
+                    </>
+                  )}
                 </div>
               </motion.div>
             </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Atom, 
@@ -13,6 +13,7 @@ import {
   GitBranch,
   Database
 } from 'lucide-react';
+import { isMobileDevice, prefersReducedMotion } from '../hooks/useMobileOptimization';
 
 const stack = [
   { name: 'PyTorch', icon: <Flame size={24} />, color: 'text-orange-500' },
@@ -29,13 +30,40 @@ const stack = [
 ];
 
 export const LogoTicker: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(isMobileDevice());
+    setReducedMotion(prefersReducedMotion());
+  }, []);
+
+  // Fewer duplicates on mobile for better performance
+  const stackItems = reducedMotion 
+    ? [...stack] 
+    : isMobile 
+    ? [...stack, ...stack] 
+    : [...stack, ...stack, ...stack, ...stack];
+
+  // Animation settings based on device
+  const animationConfig = reducedMotion
+    ? { animate: { x: 0 } } // Static position for reduced motion
+    : {
+        animate: { x: [0, isMobile ? -1000 : -2000] },
+        transition: { 
+          duration: isMobile ? 30 : 50, // Slower on mobile for smoother feel
+          ease: "linear", 
+          repeat: Infinity,
+        }
+      };
+
   return (
     <section className="w-full relative py-20 overflow-visible">
         {/* Background Visuals */}
-        <div className="absolute inset-0 bg-white/[0.02] backdrop-blur-xl border-y border-white/[0.05] z-0"></div>
+        <div className={`absolute inset-0 bg-white/[0.02] ${!isMobile ? 'backdrop-blur-xl' : ''} border-y border-white/[0.05] z-0`}></div>
         
         {/* Label - Fixed positioning and z-index to ensure visibility */}
-        <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-[#0a0a0a] px-6 py-2 rounded-full border border-white/15 z-30 shadow-[0_0_30px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+        <div className={`absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-[#0a0a0a] px-6 py-2 rounded-full border border-white/15 z-30 shadow-[0_0_30px_rgba(0,0,0,0.8)] ${!isMobile ? 'backdrop-blur-xl' : ''}`}>
             <span className="text-[12px] font-mono font-bold uppercase tracking-[0.25em] text-white/80">
                 Daily Drivers & Essentials
             </span>
@@ -44,25 +72,20 @@ export const LogoTicker: React.FC = () => {
         {/* Outer container with hidden overflow for the loop */}
         <div className="relative overflow-hidden w-full py-4">
             {/* Fade Masks for seamless loop illusion */}
-            <div className="absolute top-0 left-0 h-full w-48 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none" />
-            <div className="absolute top-0 right-0 h-full w-48 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 left-0 h-full w-24 md:w-48 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 right-0 h-full w-24 md:w-48 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none" />
 
             <div className="flex relative z-0">
                 <motion.div 
-                className="flex gap-16 md:gap-32 items-center pr-16 md:pr-32 whitespace-nowrap"
-                animate={{ x: [0, -2000] }} 
-                transition={{ 
-                    duration: 50, 
-                    ease: "linear", 
-                    repeat: Infinity,
-                }}
+                className="flex gap-8 md:gap-16 lg:gap-32 items-center pr-8 md:pr-16 lg:pr-32 whitespace-nowrap"
+                {...animationConfig}
                 >
-                {[...stack, ...stack, ...stack, ...stack].map((item, i) => (
-                    <div key={i} className="flex items-center gap-4 group cursor-default transition-all duration-300 hover:scale-105">
+                {stackItems.map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 md:gap-4 group cursor-default transition-all duration-300 hover:scale-105">
                         <div className={`transition-all duration-300 text-zinc-500 group-hover:${item.color} group-hover:scale-110`}>
                             {item.icon}
                         </div>
-                        <span className="text-xl font-medium tracking-tight text-zinc-400 group-hover:text-white transition-colors">
+                        <span className="text-base md:text-xl font-medium tracking-tight text-zinc-400 group-hover:text-white transition-colors">
                             {item.name}
                         </span>
                     </div>

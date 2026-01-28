@@ -35,6 +35,31 @@ vi.mock('lucide-react', () => ({
   GraduationCap: () => <span data-testid="graduation-cap" />,
 }));
 
+// Mock the mobile optimization hook to enable complex animations in tests
+vi.mock('../../hooks/useMobileOptimization', () => ({
+  useMobileOptimization: () => ({
+    isMobile: false,
+    isLowPower: false,
+    reducedMotion: false,
+    animationDuration: 0.8,
+    enableComplexAnimations: true,
+    enableParallax: true,
+    enableHoverEffects: true,
+    particleCount: 250,
+    enable3D: true,
+    dpr: [1, 1.5],
+    enableBackdropBlur: true,
+    blurIntensity: 12,
+    enableGlowEffects: true,
+    shouldRender3D: true,
+    useSimplifiedBackground: false,
+  }),
+  isMobileDevice: () => false,
+  isLowPowerDevice: () => false,
+  prefersReducedMotion: () => false,
+  getMobileOptimizedVariants: () => ({}),
+}));
+
 describe('Hero', () => {
   it('renders without crashing', () => {
     render(<Hero />);
@@ -89,7 +114,7 @@ describe('Hero', () => {
     expect(image).toHaveAttribute('src', '/images/erasebg-transformed.webp');
   });
 
-  it('displays floating badge icons', () => {
+  it('displays floating badge icons when complex animations are enabled', () => {
     render(<Hero />);
     expect(screen.getByTestId('eye')).toBeInTheDocument();
     expect(screen.getByTestId('cloud')).toBeInTheDocument();

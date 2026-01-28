@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { MeshTransmissionMaterial, Float, Environment, PerspectiveCamera, Stars } from '@react-three/drei';
+import { MeshTransmissionMaterial, Float, PerspectiveCamera, Stars } from '@react-three/drei';
 import * as THREE from 'three';
 
 const FluidSphere = () => {
@@ -154,7 +154,6 @@ export const NeuralLiquidCore: React.FC = () => {
         <pointLight position={[-10, -10, -10]} intensity={0.5} color="indigo" />
         
         <Suspense fallback={null}>
-            <Environment preset="city" />
             <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
             <FluidSphere />
             <Particles />

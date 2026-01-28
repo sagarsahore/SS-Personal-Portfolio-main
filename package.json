@@ -1,0 +1,36 @@
+{
+  "name": "sagar-sahore",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.99.0",
+    "@react-three/fiber": "^8.15.16",
+    "@remix-run/router": "1.15.3",
+    "framer-motion": "^10.16.4",
+    "framer-motion-3d": "^12.4.13",
+    "lucide-react": "^0.344.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router": "6.22.3",
+    "react-router-dom": "6.22.3",
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/node": "^22.14.0",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}

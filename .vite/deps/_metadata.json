@@ -1,0 +1,88 @@
+{
+  "hash": "8ac1a27c",
+  "configHash": "e5514a10",
+  "lockfileHash": "d4cfeaab",
+  "browserHash": "ce5e347b",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "0c2b57bb",
+      "needsInterop": true
+    },
+    "react-dom": {
+      "src": "../../node_modules/react-dom/index.js",
+      "file": "react-dom.js",
+      "fileHash": "c05fdef6",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "ec4fa6df",
+      "needsInterop": false
+    },
+    "framer-motion": {
+      "src": "../../node_modules/framer-motion/dist/es/index.mjs",
+      "file": "framer-motion.js",
+      "fileHash": "83c582a6",
+      "needsInterop": false
+    },
+    "lucide-react": {
+      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
+      "file": "lucide-react.js",
+      "fileHash": "fa6f6ecc",
+      "needsInterop": false
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "2cb74f98",
+      "needsInterop": true
+    },
+    "react/jsx-runtime": {
+      "src": "../../node_modules/react/jsx-runtime.js",
+      "file": "react_jsx-runtime.js",
+      "fileHash": "f031a783",
+      "needsInterop": true
+    },
+    "@react-three/drei": {
+      "src": "../../node_modules/@react-three/drei/index.js",
+      "file": "@react-three_drei.js",
+      "fileHash": "22efa0c1",
+      "needsInterop": false
+    },
+    "@react-three/fiber": {
+      "src": "../../node_modules/@react-three/fiber/dist/react-three-fiber.esm.js",
+      "file": "@react-three_fiber.js",
+      "fileHash": "53364f37",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "fd1abd66",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-UBZHAY5G": {
+      "file": "chunk-UBZHAY5G.js"
+    },
+    "vision_bundle-JT4RNE55": {
+      "file": "vision_bundle-JT4RNE55.js"
+    },
+    "chunk-JW4A3CJ6": {
+      "file": "chunk-JW4A3CJ6.js"
+    },
+    "chunk-BMXUNFEU": {
+      "file": "chunk-BMXUNFEU.js"
+    },
+    "chunk-2PIBWAMS": {
+      "file": "chunk-2PIBWAMS.js"
+    },
+    "chunk-V4OQ3NZ2": {
+      "file": "chunk-V4OQ3NZ2.js"
+    }
+  }
+}

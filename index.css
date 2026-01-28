@@ -1,0 +1,245 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Design System - Inspired by Professional Navy Suit */
+    --color-primary: #ff0000; /* Electric Blue - Main accent */
+    --color-primary-dark: #0052cc; /* Darker blue for hover states */
+    --color-primary-light: #3d8bff; /* Lighter blue for highlights */
+    --color-secondary: #1e3a5f; /* Navy Blue - Suits your image */
+    --color-accent: #f5a623; /* Warm gold accent - subtle warmth */
+    --color-success: #10b981; /* Emerald for status indicators */
+
+    /* Surface colors */
+    --color-bg: #030712; /* Deep dark background */
+    --color-surface: #0a0f1c; /* Card/surface background */
+    --color-surface-elevated: #111827; /* Elevated surfaces */
+
+    /* Text colors */
+    --color-text-primary: #f9fafb; /* Primary text - near white */
+    --color-text-secondary: #9ca3af; /* Secondary text */
+    --color-text-muted: #6b7280; /* Muted text */
+
+    /* Glass morphism */
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-surface: rgba(255, 255, 255, 0.02);
+    --glass-blur: 12px;
+
+    /* Animation */
+    --ease-apple: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Premium Scrollbar */
+  body::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  body::-webkit-scrollbar-track {
+    background: var(--color-bg);
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background: var(--color-secondary);
+    border-radius: 4px;
+  }
+
+  body::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+  }
+
+  /* Focus states - matches brand */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+
+  /* Selection color */
+  ::selection {
+    background: var(--color-primary);
+    color: white;
+  }
+}
+
+@layer components {
+  /* Primary Button */
+  .btn-primary {
+    @apply px-6 py-3 bg-[var(--color-primary)] text-white font-semibold rounded-full;
+    @apply hover:bg-[var(--color-primary-dark)] transition-all duration-300;
+    @apply hover:shadow-lg hover:shadow-[var(--color-primary)]/25;
+  }
+
+  /* Glass Card Base */
+  .glass-card {
+    background: var(--glass-surface);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+  }
+
+  /* Accent gradient - matches professional look */
+  .gradient-primary {
+    background: linear-gradient(
+      135deg,
+      var(--color-primary) 0%,
+      var(--color-secondary) 100%
+    );
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-light) 0%,
+      var(--color-primary) 50%,
+      var(--color-secondary) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .mask-gradient-b {
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 40px -10px var(--color-primary);
+  }
+
+  .glow-primary-sm {
+    box-shadow: 0 0 20px -5px var(--color-primary);
+  }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* GPU Acceleration for smooth animations */
+.gpu-accelerate {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Reduce paint areas */
+* {
+  box-sizing: border-box;
+}
+
+/* Optimized animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Hide 3D backgrounds for reduced motion */
+  canvas {
+    display: none !important;
+  }
+}
+
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+  /* Reduce blur on mobile for better performance */
+  .backdrop-blur-xl {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Simpler shadows on mobile */
+  .shadow-2xl {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Optimize font rendering */
+  body {
+    text-rendering: optimizeSpeed;
+  }
+
+  /* Reduce motion for mobile */
+  .animate-pulse {
+    animation: none;
+    opacity: 0.7;
+  }
+
+  /* Touch scrolling optimization */
+  .overflow-y-auto,
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Content visibility for lazy rendering */
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+}
+
+/* Optimized transitions */
+a,
+button {
+  transition-property:
+    color, background-color, border-color, opacity, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Prevent layout shifts */
+img,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Efficient hover states - only on devices that support hover */
+@media (hover: hover) and (pointer: fine) {
+  .hover\:scale-105:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Print styles - remove heavy elements */
+@media print {
+  canvas,
+  video,
+  .fixed {
+    display: none !important;
+  }
+}

@@ -13,9 +13,9 @@ import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Navigation } from './Navigation';
 import { NeuralBackground } from './NeuralBackground';
 
-const AVATAR_AVIF = "./images/erasebg-transformed.avif";
-const AVATAR_WEBP = "./images/erasebg-transformed.webp";
-const AVATAR_PNG = "./images/erasebg-transformed.png";
+const AVATAR_AVIF = "/images/erasebg-transformed.avif";
+const AVATAR_WEBP = "/images/erasebg-transformed.webp";
+const AVATAR_PNG = "/images/erasebg-transformed.png";
 
 // Role identity tags (same as About.tsx for consistency)
 const roleIdentities = [
@@ -136,7 +136,7 @@ const galleryCategories = [
 const galleryImages = [
   {
     id: 1,
-    src: './images/gallery/event_conference.png',
+    src: '/images/gallery/event_conference.png',
     title: 'Innovation Summit 2024',
     category: 'events',
     description: 'Keynote session at the annual tech innovation summit.',
@@ -145,7 +145,7 @@ const galleryImages = [
   },
   {
     id: 2,
-    src: './images/gallery/presentation_stage.png',
+    src: '/images/gallery/presentation_stage.png',
     title: 'AI in Healthcare Talk',
     category: 'presentations',
     description: 'Presenting research on deep learning for medical diagnostics.',
@@ -154,7 +154,7 @@ const galleryImages = [
   },
   {
     id: 3,
-    src: './images/gallery/team_association.png',
+    src: '/images/gallery/team_association.png',
     title: 'Research Lab Team',
     category: 'associations',
     description: 'With my colleagues at the Computer Vision Research Lab.',
@@ -163,7 +163,7 @@ const galleryImages = [
   },
   {
     id: 4,
-    src: './images/gallery/workshop_session.png',
+    src: '/images/gallery/workshop_session.png',
     title: 'Salesforce Training Workshop',
     category: 'presentations',
     description: 'Leading a hands-on Salesforce development workshop.',
@@ -172,7 +172,7 @@ const galleryImages = [
   },
   {
     id: 5,
-    src: './images/gallery/networking_event.png',
+    src: '/images/gallery/networking_event.png',
     title: 'TechInnovate Networking',
     category: 'events',
     description: 'Industry networking event connecting tech professionals.',
@@ -181,7 +181,7 @@ const galleryImages = [
   },
   {
     id: 6,
-    src: './images/gallery/award_ceremony.png',
+    src: '/images/gallery/award_ceremony.png',
     title: 'Excellence Award Recognition',
     category: 'events',
     description: 'Receiving recognition for outstanding project contributions.',

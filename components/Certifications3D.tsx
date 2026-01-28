@@ -281,7 +281,7 @@ export const Certifications3D: React.FC<Cert3DProps> = ({ activeCert }) => {
                 <pointLight position={[-10, -5, 5]} intensity={2} color={activeColor} distance={20} />
                 
                 <Suspense fallback={null}>
-                    <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" blur={0.8} />
+                    <Environment preset="city" blur={0.8} />
                     
                     <Center>
                         <HolographicCard cert={activeCert} color={activeColor} />

@@ -150,7 +150,7 @@ export const Presenter3D: React.FC = () => {
                 
                 <Audience />
                 
-                <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" />
+                <Environment preset="city" />
             </Canvas>
             
             {/* Overlay */}

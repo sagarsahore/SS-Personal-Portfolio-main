@@ -154,8 +154,7 @@ export const NeuralLiquidCore: React.FC = () => {
         <pointLight position={[-10, -10, -10]} intensity={0.5} color="indigo" />
         
         <Suspense fallback={null}>
-            {/* Using direct URL for Environment to avoid 403 on default preset assets */}
-            <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" />
+            <Environment preset="city" />
             <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
             <FluidSphere />
             <Particles />

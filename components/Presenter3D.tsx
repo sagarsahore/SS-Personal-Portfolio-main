@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { MeshTransmissionMaterial, Float, Environment, SpotLight } from '@react-three/drei';
+import { MeshTransmissionMaterial, Float, SpotLight } from '@react-three/drei';
 import * as THREE from 'three';
 import { SafePresentationControls } from './SafePresentationControls';
 
@@ -149,8 +149,6 @@ export const Presenter3D: React.FC = () => {
                 </SafePresentationControls>
                 
                 <Audience />
-                
-                <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" />
             </Canvas>
             
             {/* Overlay */}

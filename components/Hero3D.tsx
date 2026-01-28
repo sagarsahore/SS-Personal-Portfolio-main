@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useState, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { MeshTransmissionMaterial, Float, Environment, PerspectiveCamera, Stars } from '@react-three/drei';
+import { MeshTransmissionMaterial, Float, PerspectiveCamera, Stars } from '@react-three/drei';
 import * as THREE from 'three';
 import { SafePresentationControls } from './SafePresentationControls';
 
@@ -200,8 +200,6 @@ export const Hero3D: React.FC = () => {
         <spotLight position={[-5, 5, 5]} angle={0.5} penumbra={1} intensity={1} castShadow color="#2dd4bf" />
         
         <Suspense fallback={<LoadingPlaceholder />}>
-            <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" />
-            
             {/* Interactive Controls */}
             <SafePresentationControls
             global={false}

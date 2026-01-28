@@ -1,6 +1,6 @@
 import React, { useRef, Suspense, useMemo, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { MeshTransmissionMaterial, Text, Float, Environment, Center, Sparkles, Grid } from '@react-three/drei';
+import { MeshTransmissionMaterial, Text, Float, Center, Sparkles, Grid } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface Cert3DProps {
@@ -281,8 +281,6 @@ export const Certifications3D: React.FC<Cert3DProps> = ({ activeCert }) => {
                 <pointLight position={[-10, -5, 5]} intensity={2} color={activeColor} distance={20} />
                 
                 <Suspense fallback={null}>
-                    <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" blur={0.8} />
-                    
                     <Center>
                         <HolographicCard cert={activeCert} color={activeColor} />
                     </Center>

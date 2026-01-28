@@ -391,7 +391,7 @@ export const Hero: React.FC = () => {
                     transition={{ duration: 1, delay: 0.5 }}
                   >
                     <img 
-                      src="./images/erasebg-transformed.webp" 
+                      src="/images/erasebg-transformed.webp" 
                       alt="Sagar Sahore"
                       className="w-full h-full object-cover object-top"
                       onLoad={() => setImageLoaded(true)}
